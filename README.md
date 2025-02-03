@@ -1,26 +1,35 @@
-# OpenAI Python API library
+<div align="center">
 
-[![PyPI version](https://img.shields.io/pypi/v/openai.svg)](https://pypi.org/project/openai/)
+# QwenAI Python API library
 
-The OpenAI Python library provides convenient access to the OpenAI REST API from any Python 3.8+
-application. The library includes type definitions for all request params and response fields,
-and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
+[![PyPI version](https://img.shields.io/pypi/v/qwenai)](https://pypi.org/project/openai/)
+![Python Qwen Alibaba AI](https://img.shields.io/pypi/dm/qwenai)
 
-It is generated from our [OpenAPI specification](https://github.com/openai/openai-openapi) with [Stainless](https://stainlessapi.com/).
+</div>
 
-## Documentation
 
-The REST API documentation can be found on [platform.openai.com](https://platform.openai.com/docs). The full API of this library can be found in [api.md](api.md).
+> [!IMPORTANT]
+> This library is created for a specific purpose. If you're unsure whether you need it, consider using the [original](https://github.com/openai/openai-python) library instead.
+
+This library is designed to streamline interaction with Qwen, the powerful AI model developed by Alibaba. It provides a simple yet efficient interface for leveraging QwenAPI, making it easier to integrate Alibaba's cutting-edge language models into various applications. Whether you need text generation, embeddings, or AI-powered chat capabilities, this library ensures smooth and reliable communication with Qwen. Built on openai-python, it maintains compatibility with existing OpenAI-based workflows while optimizing performance for Alibaba's Qwen ecosystem. Ideal for developers, researchers, and businesses looking to harness the full potential of Qwen with minimal setup. 🚀
 
 ## Installation
 
-> [!IMPORTANT]
-> The SDK was rewritten in v1, which was released November 6th 2023. See the [v1 migration guide](https://github.com/openai/openai-python/discussions/742), which includes scripts to automatically update your code.
-
 ```sh
 # install from PyPI
-pip install openai
+pip install qwenai
 ```
+
+## How to obtain a Qwen's API key
+
+1. Log on to the [Alibaba Cloud Model Studio console](https://bailian.console.alibabacloud.com/?spm=a2c63.p38356.0.0.65f46681z57sqo#/home).
+1. Hover your cursor over image of your profile in the upper-right corner of the page and select API-KEY.
+    ![alibaba-profile-icon](https://help-static-aliyun-doc.aliyuncs.com/assets/img/en-US/5453762371/p870160.png)
+1. In the left-side navigation pane, select All API Keys or My API Key to view or create API keys.
+
+> Note:
+> - You can only use the All API Keys page if you are using the Alibaba Cloud account. The Alibaba Cloud account can obtain the API keys of all RAM users, but a RAM user can only obtain its own API key.
+> - Keep your API key confidential to avoid security risks or financial losses caused by unauthorized usage.
 
 ## Usage
 
@@ -28,9 +37,9 @@ The full API of this library can be found in [api.md](api.md).
 
 ```python
 import os
-from openai import OpenAI
+from qwenai import QwenAI
 
-client = OpenAI(
+client = QwenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),  # This is the default and can be omitted
 )
 
@@ -41,7 +50,7 @@ chat_completion = client.chat.completions.create(
             "content": "Say this is a test",
         }
     ],
-    model="gpt-4o",
+    model="qwen-plus",
 )
 ```
 
@@ -56,7 +65,7 @@ With a hosted image:
 
 ```python
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="qwen-plus",
     messages=[
         {
             "role": "user",
@@ -76,7 +85,7 @@ With the image as a base64 encoded string:
 
 ```python
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="qwen-plus",
     messages=[
         {
             "role": "user",
@@ -144,14 +153,14 @@ More information on streaming helpers can be found in the dedicated documentatio
 
 ## Async usage
 
-Simply import `AsyncOpenAI` instead of `OpenAI` and use `await` with each API call:
+Simply import `AsyncQwenAI` instead of `QwenAI` and use `await` with each API call:
 
 ```python
 import os
 import asyncio
-from openai import AsyncOpenAI
+from qwenai import AsyncQwenAI
 
-client = AsyncOpenAI(
+client = AsyncQwenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),  # This is the default and can be omitted
 )
 
@@ -164,7 +173,7 @@ async def main() -> None:
                 "content": "Say this is a test",
             }
         ],
-        model="gpt-4o",
+        model="qwen-plus",
     )
 
 
@@ -178,9 +187,9 @@ Functionality between the synchronous and asynchronous clients is otherwise iden
 We provide support for streaming responses using Server Side Events (SSE).
 
 ```python
-from openai import OpenAI
+from qwenai import QwenAI
 
-client = OpenAI()
+client = QwenAI()
 
 stream = client.chat.completions.create(
     messages=[
@@ -189,7 +198,7 @@ stream = client.chat.completions.create(
             "content": "Say this is a test",
         }
     ],
-    model="gpt-4o",
+    model="qwen-plus",
     stream=True,
 )
 for chunk in stream:
@@ -200,14 +209,14 @@ The async client uses the exact same interface.
 
 ```python
 import asyncio
-from openai import AsyncOpenAI
+from qwenai import AsyncQwenAI
 
-client = AsyncOpenAI()
+client = AsyncQwenAI()
 
 
 async def main():
     stream = await client.chat.completions.create(
-        model="gpt-4",
+        model="qwen-plus",
         messages=[{"role": "user", "content": "Say this is a test"}],
         stream=True,
     )
@@ -226,17 +235,17 @@ asyncio.run(main())
 We also expose a global client instance that is accessible in a similar fashion to versions prior to v1.
 
 ```py
-import openai
+import qwenai
 
 # optional; defaults to `os.environ['OPENAI_API_KEY']`
-openai.api_key = '...'
+qwenai.api_key = '...'
 
-# all client options can be configured just like the `OpenAI` instantiation counterpart
-openai.base_url = "https://..."
-openai.default_headers = {"x-foo": "true"}
+# all client options can be configured just like the `QwenAI` instantiation counterpart
+qwenai.base_url = "https://..."
+qwenai.default_headers = {"x-foo": "true"}
 
-completion = openai.chat.completions.create(
-    model="gpt-4o",
+completion = qwenai.chat.completions.create(
+    model="qwen-plus",
     messages=[
         {
             "role": "user",
@@ -251,7 +260,7 @@ The API is the exact same as the standard client instance-based API.
 
 This is intended to be used within REPLs or notebooks for faster iteration, **not** in application code.
 
-We recommend that you always instantiate a client (e.g., with `client = OpenAI()`) in application code because:
+We recommend that you always instantiate a client (e.g., with `client = QwenAI()`) in application code because:
 
 - It can be difficult to reason about where client options are configured
 - It's not possible to change certain client options without potentially causing race conditions
@@ -270,12 +279,12 @@ Basic text based example:
 
 ```py
 import asyncio
-from openai import AsyncOpenAI
+from qwenai import AsyncQwenAI
 
 async def main():
-    client = AsyncOpenAI()
+    client = AsyncQwenAI()
 
-    async with client.beta.realtime.connect(model="gpt-4o-realtime-preview") as connection:
+    async with client.beta.realtime.connect(model="qwen-plus") as connection:
         await connection.session.update(session={'modalities': ['text']})
 
         await connection.conversation.item.create(
@@ -300,16 +309,16 @@ async def main():
 asyncio.run(main())
 ```
 
-However the real magic of the Realtime API is handling audio inputs / outputs, see this example [TUI script](https://github.com/openai/openai-python/blob/main/examples/realtime/push_to_talk_app.py) for a fully fledged example.
+However the real magic of the Realtime API is handling audio inputs / outputs, see this example [TUI script](https://github.com/s0d3s/qwen-python/blob/main/examples/realtime/push_to_talk_app.py) for a fully fledged example.
 
 ### Realtime error handling
 
 Whenever an error occurs, the Realtime API will send an [`error` event](https://platform.openai.com/docs/guides/realtime-model-capabilities#error-handling) and the connection will stay open and remain usable. This means you need to handle it yourself, as *no errors are raised directly* by the SDK when an `error` event comes in.
 
 ```py
-client = AsyncOpenAI()
+client = AsyncQwenAI()
 
-async with client.beta.realtime.connect(model="gpt-4o-realtime-preview") as connection:
+async with client.beta.realtime.connect(model="qwen-plus") as connection:
     ...
     async for event in connection:
         if event.type == 'error':
@@ -330,14 +339,14 @@ Typed requests and responses provide autocomplete and documentation within your 
 
 ## Pagination
 
-List methods in the OpenAI API are paginated.
+List methods in the QwenAI API are paginated.
 
 This library provides auto-paginating iterators with each list response, so you do not have to request successive pages manually:
 
 ```python
-from openai import OpenAI
+from qwenai import QwenAI
 
-client = OpenAI()
+client = QwenAI()
 
 all_jobs = []
 # Automatically fetches more pages as needed.
@@ -353,9 +362,9 @@ Or, asynchronously:
 
 ```python
 import asyncio
-from openai import AsyncOpenAI
+from qwenai import AsyncQwenAI
 
-client = AsyncOpenAI()
+client = AsyncQwenAI()
 
 
 async def main() -> None:
@@ -404,9 +413,9 @@ for job in first_page.data:
 Nested parameters are dictionaries, typed using `TypedDict`, for example:
 
 ```python
-from openai import OpenAI
+from qwenai import QwenAI
 
-client = OpenAI()
+client = QwenAI()
 
 completion = client.chat.completions.create(
     messages=[
@@ -415,7 +424,7 @@ completion = client.chat.completions.create(
             "content": "Can you generate an example json object describing a fruit?",
         }
     ],
-    model="gpt-4o",
+    model="qwen-plus",
     response_format={"type": "json_object"},
 )
 ```
@@ -426,9 +435,9 @@ Request parameters that correspond to file uploads can be passed as `bytes`, a [
 
 ```python
 from pathlib import Path
-from openai import OpenAI
+from qwenai import QwenAI
 
-client = OpenAI()
+client = QwenAI()
 
 client.files.create(
     file=Path("input.jsonl"),
@@ -440,30 +449,30 @@ The async client uses the exact same interface. If you pass a [`PathLike`](https
 
 ## Handling errors
 
-When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `openai.APIConnectionError` is raised.
+When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `qwenai.APIConnectionError` is raised.
 
 When the API returns a non-success status code (that is, 4xx or 5xx
-response), a subclass of `openai.APIStatusError` is raised, containing `status_code` and `response` properties.
+response), a subclass of `qwenai.APIStatusError` is raised, containing `status_code` and `response` properties.
 
-All errors inherit from `openai.APIError`.
+All errors inherit from `qwenai.APIError`.
 
 ```python
-import openai
-from openai import OpenAI
+import qwenai
+from qwenai import QwenAI
 
-client = OpenAI()
+client = QwenAI()
 
 try:
     client.fine_tuning.jobs.create(
-        model="gpt-4o",
+        model="qwen-plus",
         training_file="file-abc123",
     )
-except openai.APIConnectionError as e:
+except qwenai.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
-except openai.RateLimitError as e:
+except qwenai.RateLimitError as e:
     print("A 429 status code was received; we should back off a bit.")
-except openai.APIStatusError as e:
+except qwenai.APIStatusError as e:
     print("Another non-200-range status code was received")
     print(e.status_code)
     print(e.response)
@@ -486,11 +495,11 @@ Error codes are as follows:
 
 > For more information on debugging requests, see [these docs](https://platform.openai.com/docs/api-reference/debugging-requests)
 
-All object responses in the SDK provide a `_request_id` property which is added from the `x-request-id` response header so that you can quickly log failing requests and report them back to OpenAI.
+All object responses in the SDK provide a `_request_id` property which is added from the `x-request-id` response header so that you can quickly log failing requests and report them back to QwenAI.
 
 ```python
 completion = await client.chat.completions.create(
-    messages=[{"role": "user", "content": "Say this is a test"}], model="gpt-4"
+    messages=[{"role": "user", "content": "Say this is a test"}], model="qwen-plus"
 )
 print(completion._request_id)  # req_123
 ```
@@ -503,13 +512,13 @@ methods and modules are *private*.
 > If you need to access request IDs for failed requests you must catch the `APIStatusError` exception
 
 ```python
-import openai
+import qwenai
 
 try:
     completion = await client.chat.completions.create(
-        messages=[{"role": "user", "content": "Say this is a test"}], model="gpt-4"
+        messages=[{"role": "user", "content": "Say this is a test"}], model="qwen-plus"
     )
-except openai.APIStatusError as exc:
+except qwenai.APIStatusError as exc:
     print(exc.request_id)  # req_123
     raise exc
 ```
@@ -524,10 +533,10 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from openai import OpenAI
+from qwenai import QwenAI
 
 # Configure the default for all requests:
-client = OpenAI(
+client = QwenAI(
     # default is 2
     max_retries=0,
 )
@@ -540,7 +549,7 @@ client.with_options(max_retries=5).chat.completions.create(
             "content": "How can I get the name of the current day in JavaScript?",
         }
     ],
-    model="gpt-4o",
+    model="qwen-plus",
 )
 ```
 
@@ -550,16 +559,16 @@ By default requests time out after 10 minutes. You can configure this with a `ti
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
-from openai import OpenAI
+from qwenai import QwenAI
 
 # Configure the default for all requests:
-client = OpenAI(
+client = QwenAI(
     # 20 seconds (default is 10 minutes)
     timeout=20.0,
 )
 
 # More granular control:
-client = OpenAI(
+client = QwenAI(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
@@ -571,7 +580,7 @@ client.with_options(timeout=5.0).chat.completions.create(
             "content": "How can I list all files in a directory using Python?",
         }
     ],
-    model="gpt-4o",
+    model="qwen-plus",
 )
 ```
 
@@ -610,15 +619,15 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from openai import OpenAI
+from qwenai import QwenAI
 
-client = OpenAI()
+client = QwenAI()
 response = client.chat.completions.with_raw_response.create(
     messages=[{
         "role": "user",
         "content": "Say this is a test",
     }],
-    model="gpt-4o",
+    model="qwen-plus",
 )
 print(response.headers.get('X-My-Header'))
 
@@ -626,7 +635,7 @@ completion = response.parse()  # get the object that `chat.completions.create()`
 print(completion)
 ```
 
-These methods return a [`LegacyAPIResponse`](https://github.com/openai/openai-python/tree/main/src/openai/_legacy_response.py) object. This is a legacy class as we're changing it slightly in the next major version.
+These methods return a [`LegacyAPIResponse`](https://github.com/s0d3s/qwen-python/tree/main/src/openai/_legacy_response.py) object. This is a legacy class as we're changing it slightly in the next major version.
 
 For the sync client this will mostly be the same with the exception
 of `content` & `text` will be methods instead of properties. In the
@@ -641,7 +650,7 @@ The above interface eagerly reads the full response body when you make the reque
 
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
-As such, `.with_streaming_response` methods return a different [`APIResponse`](https://github.com/openai/openai-python/tree/main/src/openai/_response.py) object, and the async client returns an [`AsyncAPIResponse`](https://github.com/openai/openai-python/tree/main/src/openai/_response.py) object.
+As such, `.with_streaming_response` methods return a different [`APIResponse`](https://github.com/s0d3s/qwen-python/tree/main/src/openai/_response.py) object, and the async client returns an [`AsyncAPIResponse`](https://github.com/s0d3s/qwen-python/tree/main/src/openai/_response.py) object.
 
 ```python
 with client.chat.completions.with_streaming_response.create(
@@ -651,7 +660,7 @@ with client.chat.completions.with_streaming_response.create(
             "content": "Say this is a test",
         }
     ],
-    model="gpt-4o",
+    model="qwen-plus",
 ) as response:
     print(response.headers.get("X-My-Header"))
 
@@ -705,9 +714,9 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 ```python
 import httpx
-from openai import OpenAI, DefaultHttpxClient
+from qwenai import QwenAI, DefaultHttpxClient
 
-client = OpenAI(
+client = QwenAI(
     # Or use the `OPENAI_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083/v1",
     http_client=DefaultHttpxClient(
@@ -728,29 +737,29 @@ client.with_options(http_client=DefaultHttpxClient(...))
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
 ```py
-from openai import OpenAI
+from qwenai import QwenAI
 
-with OpenAI() as client:
+with QwenAI() as client:
   # make requests here
   ...
 
 # HTTP client is now closed
 ```
 
-## Microsoft Azure OpenAI
+## Microsoft Azure QwenAI
 
-To use this library with [Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/overview), use the `AzureOpenAI`
-class instead of the `OpenAI` class.
+To use this library with [Azure QwenAI](https://learn.microsoft.com/azure/ai-services/openai/overview), use the `AzureQwenAI`
+class instead of the `QwenAI` class.
 
 > [!IMPORTANT]
 > The Azure API shape differs from the core API shape which means that the static types for responses / params
 > won't always be correct.
 
 ```py
-from openai import AzureOpenAI
+from qwenai import AzureQwenAI
 
 # gets the API Key from environment variable AZURE_OPENAI_API_KEY
-client = AzureOpenAI(
+client = AzureQwenAI(
     # https://learn.microsoft.com/azure/ai-services/openai/reference#rest-api-versioning
     api_version="2023-07-01-preview",
     # https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource?pivots=web-portal#create-a-resource
@@ -769,7 +778,7 @@ completion = client.chat.completions.create(
 print(completion.to_json())
 ```
 
-In addition to the options provided in the base `OpenAI` client, the following options are provided:
+In addition to the options provided in the base `QwenAI` client, the following options are provided:
 
 - `azure_endpoint` (or the `AZURE_OPENAI_ENDPOINT` environment variable)
 - `azure_deployment`
@@ -777,7 +786,7 @@ In addition to the options provided in the base `OpenAI` client, the following o
 - `azure_ad_token` (or the `AZURE_OPENAI_AD_TOKEN` environment variable)
 - `azure_ad_token_provider`
 
-An example of using the client with Microsoft Entra ID (formerly known as Azure Active Directory) can be found [here](https://github.com/openai/openai-python/blob/main/examples/azure_ad.py).
+An example of using the client with Microsoft Entra ID (formerly known as Azure Active Directory) can be found [here](https://github.com/s0d3s/qwen-python/blob/main/examples/azure_ad.py).
 
 ## Versioning
 
@@ -798,8 +807,8 @@ If you've upgraded to the latest version but aren't seeing any new features you 
 You can determine the version that is being used at runtime with:
 
 ```py
-import openai
-print(openai.__version__)
+import qwenai
+print(qwenai.__version__)
 ```
 
 ## Requirements

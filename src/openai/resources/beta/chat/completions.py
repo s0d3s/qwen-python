@@ -264,7 +264,7 @@ class Completions(SyncAPIResource):
                     print(event.delta, flush=True, end="")
         ```
 
-        When the context manager is entered, a `ChatCompletionStream` instance is returned which, like `.create(stream=True)` is an iterator. The full list of events that are yielded by the iterator are outlined in [these docs](https://github.com/openai/openai-python/blob/main/helpers.md#chat-completions-events).
+        When the context manager is entered, a `ChatCompletionStream` instance is returned which, like `.create(stream=True)` is an iterator. The full list of events that are yielded by the iterator are outlined in [these docs](https://github.com/s0d3s/qwen-python/blob/main/helpers.md#chat-completions-events).
 
         When the context manager exits, the response will be closed, however the `stream` instance is still available outside
         the context manager.
@@ -539,7 +539,7 @@ class AsyncCompletions(AsyncAPIResource):
                     print(event.delta, flush=True, end="")
         ```
 
-        When the context manager is entered, an `AsyncChatCompletionStream` instance is returned which, like `.create(stream=True)` is an async iterator. The full list of events that are yielded by the iterator are outlined in [these docs](https://github.com/openai/openai-python/blob/main/helpers.md#chat-completions-events).
+        When the context manager is entered, an `AsyncChatCompletionStream` instance is returned which, like `.create(stream=True)` is an async iterator. The full list of events that are yielded by the iterator are outlined in [these docs](https://github.com/s0d3s/qwen-python/blob/main/helpers.md#chat-completions-events).
 
         When the context manager exits, the response will be closed, however the `stream` instance is still available outside
         the context manager.

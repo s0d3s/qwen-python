@@ -1,7 +1,7 @@
 [project]
-name = "openai"
+name = "qwenai"
 version = "1.61.0"
-description = "The official Python library for the openai API"
+description = "A library highly focused on interacting with QwenAPI, based on openai-python"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
@@ -36,11 +36,11 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/openai/openai-python"
-Repository = "https://github.com/openai/openai-python"
+Homepage = "https://github.com/s0d3s/qwen-python"
+Repository = "https://github.com/s0d3s/qwen-python"
 
 [project.scripts]
-openai = "openai.cli:main"
+qwenai = "openai.cli:main"
 
 [project.optional-dependencies]
 realtime = ["websockets >= 13, < 15"]
@@ -88,14 +88,14 @@ format = { chain = [
 "check:ruff" = "ruff check ."
 "fix:ruff" = "ruff check --fix ."
 
-"check:importable" = "python -c 'import openai'"
+"check:importable" = "python -c 'import qwenai'"
 
 typecheck = { chain = [
   "typecheck:pyright",
   "typecheck:mypy"
 ]}
 "typecheck:pyright" = "pyright"
-"typecheck:verify-types" = "pyright --verifytypes openai --ignoreexternal"
+"typecheck:verify-types" = "pyright --verifytypes qwenai --ignoreexternal"
 "typecheck:mypy" = "mypy ."
 
 [build-system]
@@ -134,7 +134,7 @@ path = "README.md"
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
 # replace relative links with absolute links
 pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
-replacement = '[\1](https://github.com/openai/openai-python/tree/main/\g<2>)'
+replacement = '[\1](https://github.com/s0d3s/qwen-python/tree/main/\g<2>)'
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -216,7 +216,7 @@ length-sort = true
 length-sort-straight = true
 combine-as-imports = true
 extra-standard-library = ["typing_extensions"]
-known-first-party = ["openai", "tests"]
+known-first-party = ["qwenai", "tests"]
 
 [tool.ruff.lint.per-file-ignores]
 "bin/**.py" = ["T201", "T203"]

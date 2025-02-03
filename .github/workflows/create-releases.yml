@@ -9,18 +9,12 @@ on:
 jobs:
   release:
     name: release
-    if: github.ref == 'refs/heads/main' && github.repository == 'openai/openai-python'
+    if: github.ref == 'refs/heads/main' && github.repository == 's0d3s/qwen-python'
     runs-on: ubuntu-latest
     environment: publish
 
     steps:
       - uses: actions/checkout@v4
-
-      - uses: stainless-api/trigger-release-please@v1
-        id: release
-        with:
-          repo: ${{ github.event.repository.full_name }}
-          stainless-api-key: ${{ secrets.STAINLESS_API_KEY }}
 
       - name: Install Rye
         if: ${{ steps.release.outputs.releases_created }}

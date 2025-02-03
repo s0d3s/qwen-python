@@ -8,7 +8,7 @@ from typing_extensions import override
 from . import types
 from ._types import NOT_GIVEN, Omit, NoneType, NotGiven, Transport, ProxiesTypes
 from ._utils import file_from_path
-from ._client import Client, OpenAI, Stream, Timeout, Transport, AsyncClient, AsyncOpenAI, AsyncStream, RequestOptions
+from ._client import Client, OpenAI, QwenAI, Stream, Timeout, Transport, AsyncClient, AsyncOpenAI, AsyncQwenAI, AsyncStream, RequestOptions
 from ._models import BaseModel
 from ._version import __title__, __version__
 from ._response import APIResponse as APIResponse, AsyncAPIResponse as AsyncAPIResponse
@@ -69,6 +69,8 @@ __all__ = [
     "AsyncStream",
     "OpenAI",
     "AsyncOpenAI",
+    "QwenAI",
+    "AsyncQwenAI",
     "file_from_path",
     "BaseModel",
     "DEFAULT_TIMEOUT",

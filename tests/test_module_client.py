@@ -37,7 +37,7 @@ def reset_state_fixture() -> None:
 
 def test_base_url_option() -> None:
     assert openai.base_url is None
-    assert openai.completions._client.base_url == URL("https://api.openai.com/v1/")
+    assert openai.completions._client.base_url == URL("https://dashscope-intl.aliyuncs.com/compatible-mode/v1/")
 
     openai.base_url = "http://foo.com"
 

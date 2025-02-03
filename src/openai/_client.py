@@ -42,6 +42,10 @@ from .resources.fine_tuning import fine_tuning
 __all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "OpenAI", "AsyncOpenAI", "Client", "AsyncClient"]
 
 
+def get_base_url() -> str:
+    return "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
+
+
 class OpenAI(SyncAPIClient):
     completions: completions.Completions
     chat: chat.Chat
@@ -99,7 +103,7 @@ class OpenAI(SyncAPIClient):
     ) -> None:
         """Construct a new synchronous openai client instance.
 
-        This automatically infers the following arguments from their corresponding environment variables if they are not provided:
+        This automatically infers the following arguments from their corresponding environment variablebase_urls if they are not provided:
         - `api_key` from `OPENAI_API_KEY`
         - `organization` from `OPENAI_ORG_ID`
         - `project` from `OPENAI_PROJECT_ID`
@@ -125,7 +129,7 @@ class OpenAI(SyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("OPENAI_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.openai.com/v1"
+            base_url = get_base_url()
 
         super().__init__(
             version=__version__,
@@ -352,7 +356,7 @@ class AsyncOpenAI(AsyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("OPENAI_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.openai.com/v1"
+            base_url = get_base_url()
 
         super().__init__(
             version=__version__,
@@ -560,6 +564,14 @@ class AsyncOpenAIWithStreamedResponse:
         self.uploads = uploads.AsyncUploadsWithStreamingResponse(client.uploads)
 
 
-Client = OpenAI
+class QwenAI(OpenAI):
+    """Just stub to control compatibility"""
 
-AsyncClient = AsyncOpenAI
+
+class AsyncQwenAI(OpenAI):
+    ...
+
+
+Client = QwenAI
+
+AsyncClient = AsyncQwenAI
